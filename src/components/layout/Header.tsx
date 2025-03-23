@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
-import { ShoppingCart, User, Menu, X, ChevronDown } from 'lucide-react';
+import { ShoppingCart, User, Menu, X, ChevronDown, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -67,14 +67,24 @@ const Header: React.FC = () => {
               Shop
             </Link>
             {isAuthenticated && user?.role === 'admin' && (
-              <Link 
-                to="/admin" 
-                className={`text-base font-medium transition-colors hover:text-primary ${
-                  location.pathname.includes('/admin') ? 'text-primary' : 'text-muted-foreground'
-                }`}
-              >
-                Admin
-              </Link>
+              <>
+                <Link 
+                  to="/admin" 
+                  className={`text-base font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/admin' ? 'text-primary' : 'text-muted-foreground'
+                  }`}
+                >
+                  Admin
+                </Link>
+                <Link 
+                  to="/admin/products" 
+                  className={`text-base font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/admin/products' ? 'text-primary' : 'text-muted-foreground'
+                  }`}
+                >
+                  Products
+                </Link>
+              </>
             )}
           </nav>
         )}
@@ -123,6 +133,24 @@ const Header: React.FC = () => {
                   >
                     Orders
                   </Link>
+                  {user?.role === 'admin' && (
+                    <>
+                      <Link 
+                        to="/admin" 
+                        className="block px-4 py-2 text-sm hover:bg-secondary transition-colors"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        Admin Dashboard
+                      </Link>
+                      <Link 
+                        to="/admin/products" 
+                        className="block px-4 py-2 text-sm hover:bg-secondary transition-colors"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        Manage Products
+                      </Link>
+                    </>
+                  )}
                   <button 
                     onClick={() => {
                       logout();
@@ -197,14 +225,24 @@ const Header: React.FC = () => {
               </Link>
             )}
             {isAuthenticated && user?.role === 'admin' && (
-              <Link 
-                to="/admin" 
-                className={`text-xl font-medium transition-colors hover:text-primary ${
-                  location.pathname.includes('/admin') ? 'text-primary' : 'text-foreground'
-                }`}
-              >
-                Admin
-              </Link>
+              <>
+                <Link 
+                  to="/admin" 
+                  className={`text-xl font-medium transition-colors hover:text-primary ${
+                    location.pathname.includes('/admin') && !location.pathname.includes('/admin/products') ? 'text-primary' : 'text-foreground'
+                  }`}
+                >
+                  Admin Dashboard
+                </Link>
+                <Link 
+                  to="/admin/products" 
+                  className={`text-xl font-medium transition-colors hover:text-primary ${
+                    location.pathname.includes('/admin/products') ? 'text-primary' : 'text-foreground'
+                  }`}
+                >
+                  Manage Products
+                </Link>
+              </>
             )}
             {isAuthenticated ? (
               <Button variant="destructive" onClick={logout}>

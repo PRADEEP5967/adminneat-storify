@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import { useAuth } from '../context/AuthContext';
 import { 
@@ -201,10 +201,12 @@ const AdminDashboard: React.FC = () => {
               <h2 className="text-xl font-medium mb-6">Quick Actions</h2>
               
               <div className="space-y-3">
-                <Button variant="outline" className="w-full justify-start">
-                  <Package className="mr-2 h-5 w-5" />
-                  Add New Product
-                </Button>
+                <Link to="/admin/products">
+                  <Button variant="outline" className="w-full justify-start">
+                    <Package className="mr-2 h-5 w-5" />
+                    Manage Products
+                  </Button>
+                </Link>
                 <Button variant="outline" className="w-full justify-start">
                   <Users className="mr-2 h-5 w-5" />
                   Manage Users

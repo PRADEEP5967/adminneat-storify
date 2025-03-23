@@ -1,18 +1,38 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import ProductCard from '../components/ui-components/ProductCard';
 import CategoryNav from '../components/ui-components/CategoryNav';
+import SearchBar from '../components/ui-components/SearchBar';
 import { products, getProductsByCategory } from '../data/products';
+import { Product } from '../context/CartContext';
 
 const Shop: React.FC = () => {
   const { categoryId } = useParams();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   
-  // Filter products by category if categoryId is provided
-  const displayedProducts = categoryId
-    ? getProductsByCategory(categoryId)
-    : products;
+  // Filter products by category and search query
+  useEffect(() => {
+    const categoryProducts = categoryId ? getProductsByCategory(categoryId) : products;
+    
+    if (searchQuery.trim() === '') {
+      setFilteredProducts(categoryProducts);
+    } else {
+      const query = searchQuery.toLowerCase();
+      const searchResults = categoryProducts.filter(product => 
+        product.name.toLowerCase().includes(query) || 
+        product.description.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query)
+      );
+      setFilteredProducts(searchResults);
+    }
+  }, [categoryId, searchQuery]);
+  
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
   
   return (
     <Layout>
@@ -30,11 +50,14 @@ const Shop: React.FC = () => {
           </p>
         </div>
         
-        <CategoryNav />
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
+          <CategoryNav />
+          <SearchBar onSearch={handleSearch} />
+        </div>
         
-        {displayedProducts.length > 0 ? (
+        {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {displayedProducts.map((product) => (
+            {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
@@ -42,7 +65,7 @@ const Shop: React.FC = () => {
           <div className="text-center py-16">
             <h3 className="text-xl font-medium mb-2">No products found</h3>
             <p className="text-muted-foreground">
-              We couldn't find any products in this category. Please try another category.
+              We couldn't find any products matching your criteria. Please try another search or category.
             </p>
           </div>
         )}
