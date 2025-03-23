@@ -12,7 +12,8 @@ import {
   ShoppingBag, 
   Box, 
   Settings, 
-  LogOut 
+  LogOut,
+  FileText 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { products } from '../data/products';
@@ -205,6 +206,12 @@ const AdminDashboard: React.FC = () => {
                   <Button variant="outline" className="w-full justify-start">
                     <Package className="mr-2 h-5 w-5" />
                     Manage Products
+                  </Button>
+                </Link>
+                <Link to="/admin/orders">
+                  <Button variant="outline" className="w-full justify-start">
+                    <FileText className="mr-2 h-5 w-5" />
+                    Manage Orders
                   </Button>
                 </Link>
                 <Button variant="outline" className="w-full justify-start">
