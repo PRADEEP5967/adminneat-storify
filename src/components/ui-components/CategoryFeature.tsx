@@ -16,7 +16,7 @@ const CategoryFeature: React.FC = () => {
   };
   
   return (
-    <section className="py-16 bg-secondary">
+    <section className="py-24">
       <div className="container px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-medium mb-4">Shop by Category</h2>
@@ -30,19 +30,19 @@ const CategoryFeature: React.FC = () => {
             <Link
               key={category.id}
               to={`/shop/${category.id}`}
-              className="group relative overflow-hidden rounded-lg aspect-[4/5]"
+              className="group relative overflow-hidden rounded-xl aspect-[4/5] hover-translate shadow-lg"
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 transition-opacity duration-300 group-hover:opacity-90"></div>
               <img
                 src={categoryImages[category.id as keyof typeof categoryImages]}
                 alt={category.name}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
-              <div className="absolute bottom-0 left-0 w-full p-6 z-20 transition-transform duration-300 group-hover:translate-y-[-8px]">
-                <h3 className="text-white text-2xl font-medium mb-2">{category.name}</h3>
+              <div className="absolute bottom-0 left-0 w-full p-8 z-20 transition-transform duration-300 group-hover:translate-y-[-8px]">
+                <h3 className="text-white text-2xl font-medium mb-3">{category.name}</h3>
                 <div className="flex items-center text-white/80 group-hover:text-white transition-colors">
-                  <span>Shop Now</span>
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <span className="text-sm font-medium">Shop Collection</span>
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-2" />
                 </div>
               </div>
             </Link>
